@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+<fields>
+  <field name="Text1"><value>t01</value></field>
+  <field name="Text2"><value>t02</value></field>
+  <field name="Text3"><value>t03</value></field>
+  <field name="Text4"><value>t04</value></field>
+  <field name="Text5.0"><value>t0500</value></field>
+  <field name="Text5.1"><value>t0501</value></field>
+  <field name="Text6.0"><value>ИП Иванов</value></field>
+  <field name="Text7.0"><value>t0700</value></field>
+  <field name="Text8"><value>t08</value></field>
+  <field name="Text9.0"><value>90</value></field>
+  <field name="Text9.1.0"><value>91</value></field>
+  <field name="Text9.1.1"><value>92</value></field>
+  <field name="Text10.0"><value>80</value></field>
+  <field name="Text10.1.0"><value>81</value></field>
+  <field name="Text10.1.1"><value>82</value></field>
+  <field name="Text11.0"><value>1100</value></field>
+  <field name="Text11.1.0"><value>1110</value></field>
+  <field name="Text11.1.1"><value>1111</value></field>
+  <field name="Text12"><value>12</value></field>
+  <field name="Text13"><value>13</value></field>
+  <field name="Text14"><value>7</value></field>
+  <field name="Text15.0"><value>t1500</value></field>
+  <field name="Text15.1"><value>t1501</value></field>
+  <field name="Text16.0"><value>60</value></field>
+  <field name="Text16.1"><value>61</value></field>
+  <field name="Text17.0"><value>t1700</value></field>
+  <field name="Text18.0"><value>t1800</value></field>
+  <field name="Text20"><value>t20</value></field>
+  <field name="Text21.0"><value>50</value></field>
+  <field name="Text21.1"><value>51</value></field>
+  <field name="Text22.0"><value>40</value></field>
+  <field name="Text22.1"><value>41</value></field>
+  <field name="Text23.0"><value>t230</value></field>
+  <field name="Text23.1"><value>t231</value></field>
+  <field name="Text25"><value>33</value></field>
+  <field name="Text26"><value>t26</value></field>
+  <field name="Text30"><value>t30</value></field>
+</fields>
+</xfdf>

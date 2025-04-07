@@ -1,0 +1,276 @@
+---
+FieldType: Text
+FieldName: Text4
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 12
+---
+FieldType: Text
+FieldName: Text5.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 3
+---
+FieldType: Text
+FieldName: Text5.1
+FieldFlags: 29360128
+FieldJustification: Right
+FieldMaxLength: 3
+---
+FieldType: Text
+FieldName: Text3
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 4
+---
+FieldType: Text
+FieldName: Text6.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 40
+---
+FieldType: Text
+FieldName: Text6.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 40
+---
+FieldType: Text
+FieldName: Text6.2
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 40
+---
+FieldType: Text
+FieldName: Text6.3
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 40
+---
+FieldType: Text
+FieldName: Text7.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 36
+---
+FieldType: Text
+FieldName: Text7.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 36
+---
+FieldType: Text
+FieldName: Text7.2
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 36
+---
+FieldType: Text
+FieldName: Text8
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 12
+---
+FieldType: Text
+FieldName: Text9.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text9.1.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text9.1.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text10.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text10.1.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text10.1.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text11.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 4
+---
+FieldType: Text
+FieldName: Text11.1.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 4
+---
+FieldType: Text
+FieldName: Text11.1.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 4
+---
+FieldType: Text
+FieldName: Text12
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text13
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 20
+---
+FieldType: Text
+FieldName: Text14
+FieldFlags: 12582912
+FieldJustification: Center
+FieldMaxLength: 1
+---
+FieldType: Text
+FieldName: Text15.0
+FieldFlags: 29360128
+FieldJustification: Right
+FieldMaxLength: 13
+---
+FieldType: Text
+FieldName: Text15.1
+FieldFlags: 29360128
+FieldJustification: Right
+FieldMaxLength: 13
+---
+FieldType: Text
+FieldName: Text16.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text16.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text17.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 20
+---
+FieldType: Text
+FieldName: Text17.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 20
+---
+FieldType: Text
+FieldName: Text17.2
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 20
+---
+FieldType: Text
+FieldName: Text1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 12
+---
+FieldType: Text
+FieldName: Text2
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 9
+---
+FieldType: Text
+FieldName: Text18.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 36
+---
+FieldType: Text
+FieldName: Text18.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 36
+---
+FieldType: Text
+FieldName: Text18.2
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 36
+---
+FieldType: Text
+FieldName: Text20
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 12
+---
+FieldType: Text
+FieldName: Text21.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text21.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text22.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text22.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text23.0
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 4
+---
+FieldType: Text
+FieldName: Text23.1
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 4
+---
+FieldType: Text
+FieldName: Text25
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 2
+---
+FieldType: Text
+FieldName: Text26
+FieldFlags: 29360128
+FieldJustification: Left
+FieldMaxLength: 20
+---
+FieldType: Text
+FieldName: Text30
+FieldFlags: 12582912
+FieldJustification: Center
+FieldMaxLength: 10

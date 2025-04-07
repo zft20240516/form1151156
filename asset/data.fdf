@@ -1,0 +1,19 @@
+%FDF-1.2
+%,,oe"
+1 0 obj
+<<
+/FDF
+<< /Fields [
+
+<< /T (Text1) /V (t01) >>
+<< /T (Text2) /V (t02) >>
+<< /T (Text3) /V (t03) >>
+<< /T (Text4) /V (t04) >>
+<< /T (Text5.0) /V (t0500) >>
+<< /T (Text6.0) /V (ИП Иванов Иван Иванович) /Encoding /utf_8>>
+
+] >> >>
+endobj
+trailer
+<</Root 1 0 R>>
+%%EOF;
