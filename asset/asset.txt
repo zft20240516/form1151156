@@ -1,1 +1,63 @@
-a
+Awesome, just add the "flatten" word at the end of the fill-form command to make it not editable.
+Like:
+# fill form
+pdftk form.pdf fill_form data.fdf output form_with_data.pdf flatten
+
+--------------------
+
+Чтобы работал UTF8:
+
+pdftk ./blank.pdf fill_form ./data.xfdf output /var/www/html/result.pdf need_appearances
+
+(не совместимо с flatten)
+
+Образец xfdf:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+<fields>
+  <field name="Text6.0"><value>ИП Иванов</value></field>
+  <field name="Text2"><value>ИП Иванов</value></field>
+  <field name="Text1"><value>я01</value></field>
+</fields>
+</xfdf>
+
+-------------------------
+
+Text1 = INN
+Text2 = KPP
+Text3 = ReportYear
+Text4 = NomerSpravki
+Text5.0 = NomerKorrektirovki
+Text5.1 = PagesCount
+Text6.[0..3] = OrgData
+Text7.[0..2] = PayerFIO
+Text8 = PayerINN
+Text9.0 = Payer_BD_DayOfMonth
+Text9.1.0 = PayerDoc_DayOfMonth
+Text9.1.1 = SignDate_DayOfMonth
+Text10.0 = Payer_BD_Month
+Text10.1.0 = PayerDoc_Month
+Text10.1.1 = SignDate_Month
+Text11.0 = Payer_BD_Year
+Text11.1.0 = PayerDoc_Year
+Text11.1.1 = SignDate_Year
+Text12 = PayerDoc_Type
+Text13 = PayerDoc_SerNum
+Text14 = SingltPage (0=no 1=yes)
+Text15.0 = Total01_Rub
+Text15.1 = Total02_Rub
+Text16.0 = Total01_Cent
+Text16.1 = Total02_Cent
+Text17.[0..2] = Signer_FIO
+Text18.[0..2] = Recepient_FIO
+Text20 = Recepient_INN
+Text21.0 = RecepientBD_DayOfMonth
+Text21.1 = RecepientDoc_DayOfMonth
+Text22.0 = RecepientBD_Month
+Text22.1 = RecepientDoc_Month
+Text23.0 = RecepientBD_Year
+Text23.1 = RecepientDoc_Year
+Text25 = RecepientDoc_Kind
+Text26 = RecepientDoc_SerNum
+Text30 = SecondPageSignDateFull
