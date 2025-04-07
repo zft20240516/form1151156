@@ -1,4 +1,4 @@
-1
+2
 Awesome, just add the "flatten" word at the end of the fill-form command to make it not editable.
 Like:
 # fill form
