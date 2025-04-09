@@ -28,7 +28,7 @@ pdftk ./blank.pdf fill_form ./data.xfdf output /var/www/html/result.pdf need_app
 Text1 = INN
 Text2 = KPP
 Text3 = ReportYear
-Text4 = NomerSpravki
+Text4 = CertNumber
 Text5.0 = NomerKorrektirovki
 Text5.1 = PagesCount
 Text6.[0..3] = OrgData
