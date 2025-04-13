@@ -45,7 +45,7 @@ Text11.1.0 = PayerDoc_Year
 Text11.1.1 = SignDate_Year
 Text12 = PayerDoc_Type
 Text13 = PayerDoc_SerNum
-Text14 = SingltPage (0=no 1=yes)
+Text14 = SinglePage (0=no 1=yes)
 Text15.0 = Total01_Rub
 Text15.1 = Total02_Rub
 Text16.0 = Total01_Cent
