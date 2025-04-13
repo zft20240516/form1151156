@@ -14,7 +14,7 @@ var options struct{
 }
 
 type TIdcard struct{
-  Type string
+  Type uint
   SerNum string
   Date time.Time
 }
@@ -36,7 +36,7 @@ func (d *TData)PagesCount()(uint){
 }
 
 func (d *TData)SinglePage()string{
-  if d.Recepient == nil {return "1"}else{return "0"}
+  if d.Recepient.FullName == "" {return "1"}else{return "0"}
 }
 
 func split01(data string, partcount uint, capacity uint)(s0 string,s1 string,s2 string,s3 string){
@@ -50,66 +50,100 @@ func split02(data string, partcount uint, capacity uint)(s0 string,s1 string,s2 
 }
 
 func _DayOfMonth(d time.Time)string{
-  return fmt.Sprintf("%2d",d.Day());
+  return fmt.Sprintf("%02d",d.Day());
 }
 func _Month(d time.Time)string{
-  return fmt.Sprintf("%2d",d.Month());
+  return fmt.Sprintf("%02d",d.Month());
 }
 func _Year(d time.Time)string{
-  return fmt.Sprintf("%4d",d.Year());  
+  return fmt.Sprintf("%04d",d.Year());  
 }
 
 func createFields(d TData)(r map[string]string){
+  r = make(map[string]string);
   r["Text1"] = d.Provider.INN;
   r["Text2"] = d.Provider.KPP;
   r["Text3"] = d.ReportYear;
   r["Text4"] = d.CertNumber;
   r["Text5.0"] = d.CorrectionNumber;
-  r["Text5.1"] = fmt.Sprintf("%d",d.PagesCount());
+  r["Text5.1"] = fmt.Sprintf("%03d",d.PagesCount());
   r["Text6.0"], r["Text6.1"], r["Text6.2"], r["Text6.3"] = split01(d.Provider.FullName,4,40);
   r["Text7.0"], r["Text7.1"], r["Text7.2"], _            = split02(d.Payer.FullName,3,36);
   r["Text8"] = d.Payer.INN;
+  if d.Payer.INN == "" {
+    r["Text9.1.0"] = _DayOfMonth(d.Payer.Idcard.Date);
+    r["Text10.1.0"] = _Month(d.Payer.Idcard.Date);
+    r["Text11.1.0"] = _Year(d.Payer.Idcard.Date);
+    r["Text12"] = fmt.Sprintf("%02d",d.Payer.Idcard.Type);
+    r["Text13"] = d.Payer.Idcard.SerNum;
+  }
   r["Text9.0"] = _DayOfMonth(d.Payer.BD);
-  r["Text9.1.0"] = _DayOfMonth(d.Payer.Idcard.Date);
+  //r["Text9.1.0"] = _DayOfMonth(d.Payer.Idcard.Date);
   r["Text9.1.1"] = _DayOfMonth(d.SignDate);
   r["Text10.0"] = _Month(d.Payer.BD);
-  r["Text10.1.0"] = _Month(d.Payer.Idcard.Date);
+  //r["Text10.1.0"] = _Month(d.Payer.Idcard.Date);
   r["Text10.1.1"] = _Month(d.SignDate);
   r["Text11.0"] = _Year(d.Payer.BD);
-  r["Text11.1.0"] = _Year(d.Payer.Idcard.Date);
+  //r["Text11.1.0"] = _Year(d.Payer.Idcard.Date);
   r["Text11.1.1"] = _Year(d.SignDate);
-  r["Text12"] = fmt.Sprintf("%2d",d.Payer.Idcard.Type);
-  r["Text13"] = d.Payer.Idcard.SerNum;
+  //r["Text12"] = fmt.Sprintf("%02d",d.Payer.Idcard.Type);
+  //r["Text13"] = d.Payer.Idcard.SerNum;
   r["Text14"] = d.SinglePage();
-  r["Text15.0"] = fmt.Sprintf("%d",uint(d.Total1 / 100));
-  r["Text15.1"] = fmt.Sprintf("%d",uint(d.Total2 / 100));
-  r["Text16.0"] = fmt.Sprintf("%d",uint(d.Total1 % 100));
-  r["Text16.1"] = fmt.Sprintf("%d",uint(d.Total2 % 100));
+  r["Text15.0"] = fmt.Sprintf("%013d",uint(d.Total1 / 100));
+  r["Text15.1"] = fmt.Sprintf("%013d",uint(d.Total2 / 100));
+  r["Text16.0"] = fmt.Sprintf("%02d",uint(d.Total1 % 100));
+  r["Text16.1"] = fmt.Sprintf("%02d",uint(d.Total2 % 100));
   r["Text17.0"], r["Text17.1"], r["Text17.2"], _         = split02(d.Signer.FullName,3,20);
   r["Text18.0"], r["Text18.1"], r["Text18.2"], _         = split02(d.Recepient.FullName,3,36);
   r["Text20"] = d.Recepient.INN;
+  if d.Recepient.INN == "" {
+    r["Text21.1"] = _DayOfMonth(d.Recepient.Idcard.Date);
+    r["Text22.1"] = _Month(d.Recepient.Idcard.Date);
+    r["Text23.1"] = _Year(d.Recepient.Idcard.Date);
+    r["Text25"] = fmt.Sprintf("%02d",d.Recepient.Idcard.Type);
+    r["Text26"] = d.Recepient.Idcard.SerNum;
+  }
   r["Text21.0"] = _DayOfMonth(d.Recepient.BD);
-  r["Text21.1"] = _DayOfMonth(d.Recepient.Idcard.Date);
+  //r["Text21.1"] = _DayOfMonth(d.Recepient.Idcard.Date);
   r["Text22.0"] = _Month(d.Recepient.BD);
-  r["Text22.1"] = _Month(d.Recepient.Idcard.Date);
+  //r["Text22.1"] = _Month(d.Recepient.Idcard.Date);
   r["Text23.0"] = _Year(d.Recepient.BD);
-  r["Text23.1"] = _Year(d.Recepient.Idcard.Date);
-  r["Text25"] = fmt.Sprintf("%2d",d.Recepient.Idcard.Type);
-  r["Text26"] = d.Recepient.Idcard.SerNum;
+  //r["Text23.1"] = _Year(d.Recepient.Idcard.Date);
+  //r["Text25"] = fmt.Sprintf("%02d",d.Recepient.Idcard.Type);
+  //r["Text26"] = d.Recepient.Idcard.SerNum;
   r["Text30"] = d.SecondPageSignDateFull.Format("02.01.2006");
   return r;
 }
 
-func createResult()(*[]byte, error){
+func createResult(data TData)(*[]byte, error){
+  var result []byte;
+  s := ""; for k,v := range(createFields(data)){
+    s += fmt.Sprintf("<field name=%q><value>%s</value></field>\n",k,v)
+  }
+  s = fmt.Sprintf(`
+<?xml version="1.0" encoding="UTF-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+<fields>
+
+%s
+
+</fields>
+</xfdf>
+  `,s);
+  os.WriteFile("./data.xfdf",[]byte(s),0777);
+  result = []byte(s); return &result,nil;  
+
   d,e := os.Stat(options.templatepath);
   if (os.IsNotExist(e) || d.IsDir()) {}
-  result := []byte("TEST");
-  return &result,nil;
+  result = []byte(s); return &result,nil;
 }
 
 func main(){
   fmt.Printf("options:\n%s\n%s\n\n",options.port,options.templatepath);
-  http.ListenAndServe(":8080", nil);
+  data := TData{Provider: &TPerson{}, Payer: &TPerson{Idcard: TIdcard{}}, Recepient: &TPerson{Idcard: TIdcard{}}, Signer: &TPerson{}}
+  result, _ := createResult(data);
+  fmt.Printf("TEST:\n%v\n=======\n%v\n\n",data,string(*result));
+  http.ListenAndServe(options.port, nil);
 }
 
 func init(){
