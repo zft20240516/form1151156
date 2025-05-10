@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script>
+      function test(e){
+        data =
+
+{
+  "Provider": {
+    "INN": "740499999997",
+    "FullName": document.getElementById('inpProvider').value
+  },
+  "Signer": {
+    "FullName": "bbbb bbb bb"
+  },
+  "Payer": {
+    "BD": "2001-02-27T00:00:00Z",
+    "INN": "740499999999",
+    "FullName": "cccc ccc cc"
+  },
+  "Recepient": {
+    "BD": "2016-03-31T00:00:00Z",
+    "-INN": "74049999998",
+    "Idcard": {
+      "SerNum": "001 9876543",
+      "Date": "2021-04-30T00:00:00Z",
+      "Type": 3
+    },
+    "-FullName": "dddd ddd dd"
+  },
+  "ReportYear": "2025",
+  "CertNumber": "321",
+  "CorrectionNumber": "2",
+  "Total1": 987654321,
+  "Total2": 9987654321
+};
+        
+        fetch('http://localhost:8080/test',{
+          method: 'POST',
+          body: JSON.stringify(data)
+        }).then(response => response.blob()).then(data => window.open(URL.createObjectURL(data)))
+      }
+    </script>
+  </head>
+  <body>
+    <input id="inpProvider" type="text">
+    <button onclick="test()">test</button>
+  </body>
+</html>
