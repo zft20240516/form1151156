@@ -4,6 +4,7 @@ import (
   "flag"
   "fmt"
   "os"
+  "os/exec"
   "net/http"
   "time"
   "encoding/json"
@@ -134,53 +135,53 @@ func createResult(data TData)(*[]byte, error){
 </fields>
 </xfdf>
   `,s);
-  os.WriteFile("./data.xfdf",[]byte(s),0777);
-  result = []byte(s); return &result,nil;  
+
+  var(
+    f_result string = "./result.pdf"
+    f_data string = "./data.xfdf"
+    f_blank string = "./blank.pdf"
+  )
+
+  os.WriteFile(f_data,[]byte(s),0777);
+  result = []byte(s); //return &result,nil;
 
   d,e := os.Stat(options.templatepath);
   if (os.IsNotExist(e) || d.IsDir()) {}
-  result = []byte(s); return &result,nil;
+
+  e = os.Remove(f_result);if e != nil {fmt.Printf("ERROR: %s\n\n",e.Error())}
+
+  cmd := exec.Command("pdftk", f_blank, "fill_form", f_data, "output", f_result, "need_appearances");
+  //cmd := exec.Command("pdftk " + f_blank + " fill_form ./data.xfdf output ./result.pdf need_appearances");
+  e = cmd.Run();if e != nil {fmt.Printf("ERROR: %s\n\n",e.Error())}
+
+  result,e = os.ReadFile(f_result);if e != nil {fmt.Printf("ERROR: %s\n\n",e.Error())}
+
+  //os.Remove(f_data);
+  //os.Remove(f_result);
+
+  return &result,e;
 }
 
-func main(){
-  fmt.Printf("options:\n%s\n%s\n\n",options.port,options.templatepath);
+func doOnGetPDF(w http.ResponseWriter, r *http.Request){
+
   data := TData{Provider: &TPerson{}, Payer: &TPerson{Idcard: TIdcard{}}, Recepient: &TPerson{Idcard: TIdcard{}}, Signer: &TPerson{}}
-  j := []byte(`
-{
-  "Provider": {
-    "INN": "740499999997",
-    "FullName": "ИП Иванов Иван Иванович"
-  },
-  "Signer": {
-    "FullName": "Иванов Иван Иванович"
-  },
-  "Payer": {
-    "BD": "2001-02-27T00:00:00Z",
-    "INN": "740499999999",
-    "FullName": "Смирнова Елена Александровна"
-  },
-  "Recepient": {
-    "BD": "2016-03-31T00:00:00Z",
-    "-INN": "74049999998",
-    "Idcard": {
-      "SerNum": "001 9876543",
-      "Date": "2021-04-30T00:00:00Z",
-      "Type": 3
-    },
-    "-FullName": "Кузнецов Андрей Сергеевич"
-  },
-  "ReportYear": "2025",
-  "CertNumber": "321",
-  "CorrectionNumber": "2",
-  "Total1": 987654321,
-  "Total2": 9987654321 
-}
-  `);
+  var j []byte = make([]byte,r.ContentLength);
+  r.Body.Read(j);
+  fmt.Printf("BODY: %s\n\n",string(j));
   data.SignDate = time.Now();
   data.SecondPageSignDateFull = data.SignDate;
   e := json.Unmarshal(j,&data);if e != nil {println(e.Error())}
   result, _ := createResult(data);
-  fmt.Printf("TEST:\n%v\n=======\n%v\n\n",data,string(*result));
+  if 1 != 1 {fmt.Printf("TEST:\n%v\n=======\n%v\n\n",data,string(*result))}
+
+  w.Header().Add("Access-Control-Allow-Origin","*");
+
+  w.Write(*result);
+}
+
+func main(){
+  //fmt.Printf("options:\n%s\n%s\n\n",options.port,options.templatepath);
+  http.HandleFunc("/test",doOnGetPDF);
   http.ListenAndServe(options.port, nil);
 }
 

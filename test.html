@@ -1,31 +1,36 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charSet="utf-8"/>
     <script>
-      function test(e){
-        data =
-
-{
+      const constTemplateStorageItemName = "Form1151156_Template";
+var data = {
   "Provider": {
     "INN": "740499999997",
-    "FullName": document.getElementById('inpProvider').value
+    "FullName": "ИП Иванов Иван Иванович"
   },
   "Signer": {
-    "FullName": "bbbb bbb bb"
+    "FullName": "Иванов Иван Иванович"
   },
   "Payer": {
     "BD": "2001-02-27T00:00:00Z",
     "INN": "740499999999",
-    "FullName": "cccc ccc cc"
-  },
-  "Recepient": {
-    "BD": "2016-03-31T00:00:00Z",
-    "-INN": "74049999998",
     "Idcard": {
       "SerNum": "001 9876543",
       "Date": "2021-04-30T00:00:00Z",
       "Type": 3
     },
-    "-FullName": "dddd ddd dd"
+    "FullName": "Петров Петр Петрович"
+  },
+  "Recepient": {
+    "BD": "2016-03-31T00:00:00Z",
+    "INN": "74049999998",
+    "Idcard": {
+      "SerNum": "001 9876543",
+      "Date": "2021-04-30T00:00:00Z",
+      "Type": 3
+    },
+    "FullName": "Сидоров Сидор Сидорович"
   },
   "ReportYear": "2025",
   "CertNumber": "321",
@@ -33,16 +38,134 @@
   "Total1": 987654321,
   "Total2": 9987654321
 };
-        
+
+      function dgebi(id){return document.getElementById(id)}
+      window.onload = function(e){
+        var s = window.localStorage.getItem(constTemplateStorageItemName);
+        if (s != null){data = JSON.parse(s)}
+        growForm(data,dgebi("divFormData"),"inp");
+      }
+      function fillObject(o,prefix){
+        for(const p in o){
+          if (typeof o[p] === "object"){
+            fillObject(o[p],prefix + p);
+          }else{
+            var e = dgebi(prefix + p);
+            if (e != null){o[p] = e.value}
+          }
+        }
+      }
+      function growForm(o,n,prefix){
+        for(const p in o){
+          if (typeof o[p] === "object"){
+            growForm(o[p],n,prefix + p);
+          }else{
+            var e, l;
+            var name = prefix + p;
+            e = document.createElement("label");
+              e.attributes["for"] = name;
+              l = local[name]; if (l == null){l = name}
+              e.textContent = l;
+              n.appendChild(e);
+            e = document.createElement("input");
+              e.id = name;
+              e.attributes["type"] = "text";
+              e.value = o[p];
+              n.appendChild(e);
+          }
+        }
+      }
+var local = {
+  "inpProviderFullName": "Данные медицинской организации",
+  "inpProviderINN": "ИНН медицинской организации",  
+  "inpSignerFullName": "ФИО подписывающего справку",
+  "inpPayerBD": "Дата рождения плательщика (в формате ДД.ММ.ГГГГ)",
+  "inpPayerINN": "ИНН плательщика. (При заполнении поля ИНН Сведения о документе, удостоверяющем личность не заполняются.)",
+  "inpPayerIdcardSerNum": "Серия и номер документа плательщика",
+  "inpPayerIdcardDate": "Дата выдачи документа плательщика (в формате ДД.ММ.ГГГГ)",
+  "inpPayerIdcardType": "Вид документа плательщика. (21 - Паспорт гражданина Российской Федерации, 03 - Свидетельство о рождении, ...*)",
+  "inpPayerFullName": "ФИО плательщика",
+  "inpRecepientBD": "Дата рождения получателя",
+  "inpRecepientINN": "ИНН получателя. (При заполнении поля ИНН Сведения о документе, удостоверяющем личность не заполняются.)",
+  "inpRecepientIdcardSerNum": "Серия и номер документа получателя",
+  "inpRecepientIdcardDate": "Дата выдачи документа получателя",
+  "inpRecepientIdcardType": "Вид документа получателя. (21 - Паспорт гражданина Российской Федерации, 03 - Свидетельство о рождении, ...*)",
+  "inpRecepientFullName": "ФИО получателя",
+  "inpReportYear": "Отчетный год",
+  "inpCertNumber": "Номер справки",
+  "inpCorrectionNumber": "Номер корректировки",
+  "inpTotal1": "** Сумма расходов на оказанные медицинские услуги по коду услуги 1 (указывается общая сумма произведенных расходов на оказанные медицинские услуги (за исключением расходов по дорогостоящим видам лечения), согласованная супругами) СУММА УКАЗЫВАЕТСЯ В КОПЕЙКАХ БЕЗ ТОЧЕК И ЗАПЯТЫХ",
+  "inpTotal2": "** Сумма расходов на оказанные медицинские услуги по коду услуги 2 (указывается общая сумма произведенных расходов по дорогостоящим видам лечения в соответствии с перечнем медицинских услуг, утвержденным Правительством Российской Федерации, согласованная супругами) СУММА УКАЗЫВАЕТСЯ В КОПЕЙКАХ БЕЗ ТОЧЕК И ЗАПЯТЫХ",
+}
+      function createPDF(e){
+        var a;
+        fillObject(data,"inp");
+        window.localStorage.setItem(constTemplateStorageItemName,JSON.stringify(data));
+        if(data.Payer.BD != ""){a = data.Payer.BD.split("."); data.Payer.BD = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
+        if(data.Payer.Idcard.Date != ""){a = data.Payer.Idcard.Date.split("."); data.Payer.Idcard.Date = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
+        if(data.Recepient.BD != ""){a = data.Recepient.BD.split("."); data.Recepient.BD = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
+        if(data.Recepient.Idcard.Date != ""){a = data.Recepient.Idcard.Date.split("."); data.Recepient.Idcard.Date = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
         fetch('http://localhost:8080/test',{
           method: 'POST',
           body: JSON.stringify(data)
         }).then(response => response.blob()).then(data => window.open(URL.createObjectURL(data)))
       }
     </script>
+    <style>
+      label::after{
+        content: "\D\A";
+        white-space: pre;
+      }
+      input{
+        width: 90%;
+      }
+      label::before{
+        content: "\D\A\D\A";
+        white-space: pre;
+      }
+    </style>
   </head>
   <body>
-    <input id="inpProvider" type="text">
-    <button onclick="test()">test</button>
+    <!--label for="inpProviderFullName">Данные медицинской организации</label><input id="inpProviderFullName" type="text"></input>
+    <label for="inpProviderINN">ИНН медицинской организации</label><input id="inpProviderINN" type="text"></input>
+    <label for=""></label><input id="" type="text"></input-->
+    <div id="divFormData"></div>
+    <br><button onclick="createPDF()">Сформировать!</button>
+    <p><details><summary>* Коды видов документа</summary>
+<table width="90%"><tbody><tr><td>Код
+</td><td>Наименование документа
+</td></tr><tr><td><span id="entry_21021" class="entry"></span>21
+</td><td>Паспорт гражданина Российской Федерации
+</td></tr><tr><td><span id="entry_21003" class="entry"></span>03
+</td><td>Свидетельство о рождении
+</td></tr><tr><td><span id="entry_21007" class="entry"></span>07
+</td><td>Военный билет
+</td></tr><tr><td><span id="entry_21008" class="entry"></span>08
+</td><td>Временное удостоверение, выданное взамен военного билета
+</td></tr><tr><td><span id="entry_21010" class="entry"></span>10
+</td><td>Паспорт иностранного гражданина
+</td></tr><tr><td><span id="entry_21011" class="entry"></span>11
+</td><td>Свидетельство о рассмотрении ходатайства о признании лица беженцем на территории Р>
+</td></tr><tr><td><span id="entry_21012" class="entry"></span>12
+</td><td>Вид на жительство в Российской Федерации
+</td></tr><tr><td><span id="entry_21013" class="entry"></span>13
+</td><td>Удостоверение беженца
+</td></tr><tr><td><span id="entry_21014" class="entry"></span>14
+</td><td>Временное удостоверение личности гражданина Российской Федерации
+</td></tr><tr><td><span id="entry_21015" class="entry"></span>15
+</td><td>Разрешение на временное проживание в Российской Федерации
+</td></tr><tr><td><span id="entry_21019" class="entry"></span>19
+</td><td>Свидетельство о предоставлении временного убежища на территории Российской Федерац>
+</td></tr><tr><td><span id="entry_21023" class="entry"></span>23
+</td><td>Свидетельство о рождении, выданное уполномоченным органом иностранного государства>
+</td></tr><tr><td><span id="entry_21024" class="entry"></span>24
+</td><td>Удостоверение личности военнослужащего Российской Федерации
+</td></tr><tr><td><span id="entry_21027" class="entry"></span>27
+</td><td>Военный билет офицера запаса
+</td></tr><tr><td><span id="entry_21091" class="entry"></span>91
+</td><td>Иные документы
+</td></tr></tbody></table>
+    </details></p>
+    <p>** Общая сумма произведенных расходов на оказанные медицинские услуги указывается в Справке (в том числе в корректирующей Справке) нарастающим итогом за налоговый период (год).</p>
   </body>
 </html>
