@@ -4,6 +4,7 @@
     <meta charSet="utf-8"/>
     <script>
       const constTemplateStorageItemName = "Form1151156_Template";
+      const constCertNumStorageName = "Form1151156_CertNum";
 var data = {
   "Provider": {
     "INN": "740499999997",
@@ -38,13 +39,20 @@ var data = {
   "Total1": 987654321,
   "Total2": 9987654321
 };
+      function checkCertNum(){
+        var s = window.localStorage.getItem(constCertNumStorageName + data.ReportYear);
+        if (s != null){data.CertNumber = s}else{data.CertNumber = "1"}
+        dgebi("inpCertNumber").value = data.CertNumber;
+      }
 
       function dgebi(id){return document.getElementById(id)}
       window.onload = function(e){
         var s = window.localStorage.getItem(constTemplateStorageItemName);
         if (s != null){data = JSON.parse(s)}
         growForm(data,dgebi("divFormData"),"inp");
+        checkCertNum();
       }
+
       function fillObject(o,prefix){
         for(const p in o){
           if (typeof o[p] === "object"){
@@ -85,10 +93,10 @@ var local = {
   "inpPayerIdcardDate": "Дата выдачи документа плательщика (в формате ДД.ММ.ГГГГ)",
   "inpPayerIdcardType": "Вид документа плательщика. (21 - Паспорт гражданина Российской Федерации, 03 - Свидетельство о рождении, ...*)",
   "inpPayerFullName": "ФИО плательщика",
-  "inpRecepientBD": "Дата рождения получателя",
+  "inpRecepientBD": "Дата рождения получателя (в формате ДД.ММ.ГГГГ)",
   "inpRecepientINN": "ИНН получателя. (При заполнении поля ИНН Сведения о документе, удостоверяющем личность не заполняются.)",
   "inpRecepientIdcardSerNum": "Серия и номер документа получателя",
-  "inpRecepientIdcardDate": "Дата выдачи документа получателя",
+  "inpRecepientIdcardDate": "Дата выдачи документа получателя (в формате ДД.ММ.ГГГГ)",
   "inpRecepientIdcardType": "Вид документа получателя. (21 - Паспорт гражданина Российской Федерации, 03 - Свидетельство о рождении, ...*)",
   "inpRecepientFullName": "ФИО получателя",
   "inpReportYear": "Отчетный год",
@@ -97,19 +105,29 @@ var local = {
   "inpTotal1": "** Сумма расходов на оказанные медицинские услуги по коду услуги 1 (указывается общая сумма произведенных расходов на оказанные медицинские услуги (за исключением расходов по дорогостоящим видам лечения), согласованная супругами) СУММА УКАЗЫВАЕТСЯ В КОПЕЙКАХ БЕЗ ТОЧЕК И ЗАПЯТЫХ",
   "inpTotal2": "** Сумма расходов на оказанные медицинские услуги по коду услуги 2 (указывается общая сумма произведенных расходов по дорогостоящим видам лечения в соответствии с перечнем медицинских услуг, утвержденным Правительством Российской Федерации, согласованная супругами) СУММА УКАЗЫВАЕТСЯ В КОПЕЙКАХ БЕЗ ТОЧЕК И ЗАПЯТЫХ",
 }
+
       function createPDF(e){
         var a;
         fillObject(data,"inp");
-        window.localStorage.setItem(constTemplateStorageItemName,JSON.stringify(data));
         if(data.Payer.BD != ""){a = data.Payer.BD.split("."); data.Payer.BD = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
         if(data.Payer.Idcard.Date != ""){a = data.Payer.Idcard.Date.split("."); data.Payer.Idcard.Date = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
         if(data.Recepient.BD != ""){a = data.Recepient.BD.split("."); data.Recepient.BD = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
         if(data.Recepient.Idcard.Date != ""){a = data.Recepient.Idcard.Date.split("."); data.Recepient.Idcard.Date = `${a[2]}-${a[1]}-${a[0]}T00:00:00.0000Z`}
+        data.Payer.Idcard.Type = (data.Payer.Idcard.Type * 2) / 2;
+        data.Recepient.Idcard.Type = (data.Recepient.Idcard.Type * 2) / 2;
+        data.Total1 = (data.Total1 * 2) / 2;
+        data.Total2 = (data.Total2 * 2) / 2;
         fetch('http://localhost:8080/test',{
           method: 'POST',
           body: JSON.stringify(data)
         }).then(response => response.blob()).then(data => window.open(URL.createObjectURL(data)))
+        window.localStorage.setItem(constCertNumStorageName + data.ReportYear,((data.CertNumber *2) / 2) + 1); checkCertNum();
       }
+      
+      function saveTemplate(e){
+        fillObject(data,"inp");
+        window.localStorage.setItem(constTemplateStorageItemName,JSON.stringify(data));
+     }
     </script>
     <style>
       label::after{
@@ -118,6 +136,7 @@ var local = {
       }
       input{
         width: 90%;
+        font-size: 1rem;
       }
       label::before{
         content: "\D\A\D\A";
@@ -130,7 +149,7 @@ var local = {
     <label for="inpProviderINN">ИНН медицинской организации</label><input id="inpProviderINN" type="text"></input>
     <label for=""></label><input id="" type="text"></input-->
     <div id="divFormData"></div>
-    <br><button onclick="createPDF()">Сформировать!</button>
+    <br><button onclick="createPDF()">Сформировать!</button><button onclick="saveTemplate()">Сохранить как шаблон!</button>
     <p><details><summary>* Коды видов документа</summary>
 <table width="90%"><tbody><tr><td>Код
 </td><td>Наименование документа
@@ -167,5 +186,10 @@ var local = {
 </td></tr></tbody></table>
     </details></p>
     <p>** Общая сумма произведенных расходов на оказанные медицинские услуги указывается в Справке (в том числе в корректирующей Справке) нарастающим итогом за налоговый период (год).</p>
+    <p>
+      <h3>ССЫЛКИ:</h3>
+      <a href="https://www.nalog.gov.ru/rn74/about_fts/docs/14112883/">Налоговая</a>
+      <br><a href="https://ivo.garant.ru/#/document/408109877/paragraph/1/doclist/691/3/0/0/%D1%84%D0%BE%D1%80%D0%BC%D0%B0%201151156:1">ГАРАНТ</a>
+    </p>
   </body>
 </html>

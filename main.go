@@ -139,7 +139,7 @@ func createResult(data TData)(*[]byte, error){
   var(
     f_result string = "./result.pdf"
     f_data string = "./data.xfdf"
-    f_blank string = "./blank.pdf"
+    f_blank string = options.templatepath
   )
 
   os.WriteFile(f_data,[]byte(s),0777);
@@ -187,6 +187,6 @@ func main(){
 
 func init(){
   flag.StringVar(&options.port,"port",":8080","Listen on port XXXXX. Default 8080");
-  flag.StringVar(&options.templatepath,"template","./template.pdf","Path to forms template. Default ./template.pdf");
+  flag.StringVar(&options.templatepath,"template","./blank.pdf","Path to forms template. Default ./blank.pdf");
   flag.Parse();
 }
