@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charSet="utf-8"/>
+    <script>
+      const constOptionsStorageItemName = "Form1151156_Options";
+      var options = {}
+
+      function dgebi(id){return document.getElementById(id)}
+      window.onload = function(e){
+        var s;
+        s = window.localStorage.getItem(constOptionsStorageItemName); if (s != null){options = JSON.parse(s)}
+        growForm(options,dgebi("divFormData"),"inp");
+      }
+
+      function fillObject(o,prefix){
+        for(const p in o){
+          if (typeof o[p] === "object"){
+            fillObject(o[p],prefix + p);
+          }else{
+            var e = dgebi(prefix + p);
+            if (e != null){o[p] = e.value}
+          }
+        }
+      }
+
+      function growForm(o,n,prefix){
+        for(const p in o){
+          if (typeof o[p] === "object"){
+            growForm(o[p],n,prefix + p);
+          }else{
+            var e, l;
+            var name = prefix + p;
+            e = document.createElement("label");
+              e.attributes["for"] = name;
+              l = local[name]; if (l == null){l = name}
+              e.textContent = l;
+              n.appendChild(e);
+            e = document.createElement("input");
+              e.id = name;
+              e.attributes["type"] = "text";
+              e.value = o[p];
+              n.appendChild(e);
+          }
+        }
+      }
+var local = {
+}
+
+     function saveOptions(e){
+       fillObject(options,"inp");
+       window.localStorage.setItem(constOptionsStorageItemName,JSON.stringify(options));
+     }
+    </script>
+    <style>
+      label::after{
+        content: "\D\A";
+        white-space: pre;
+      }
+      input{
+        width: 90%;
+        font-size: 1rem;
+      }
+      label::before{
+        content: "\D\A\D\A";
+        white-space: pre;
+      }
+      button{
+        margin: 0.3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Настройки для формы 1151156</h1>
+    <div id="divFormData"></div>
+    <br>
+    <button onclick="saveOptions()">Сохранить!</button>
+  </body>
+</html>
