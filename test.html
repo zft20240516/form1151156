@@ -5,6 +5,10 @@
     <script>
       const constTemplateStorageItemName = "Form1151156_Template";
       const constCertNumStorageName = "Form1151156_CertNum";
+      const constOptionsStorageItemName = "Form1151156_Options";
+      var options = {
+        "PDFCreateURL": "http://localhost:8080/test",
+      }
 var data = {
   "Provider": {
     "INN": "740499999997",
@@ -47,8 +51,9 @@ var data = {
 
       function dgebi(id){return document.getElementById(id)}
       window.onload = function(e){
-        var s = window.localStorage.getItem(constTemplateStorageItemName);
-        if (s != null){data = JSON.parse(s)}
+        var s;
+        s = window.localStorage.getItem(constTemplateStorageItemName); if (s != null){data = JSON.parse(s)}
+        s = window.localStorage.getItem(constOptionsStorageItemName); if (s != null){options = JSON.parse(s)}
         growForm(data,dgebi("divFormData"),"inp");
         checkCertNum();
       }
@@ -63,6 +68,9 @@ var data = {
           }
         }
       }
+
+      function doOnChange_inpReportYear(e){data.ReportYear = dgebi("inpReportYear").value;checkCertNum()}
+      
       function growForm(o,n,prefix){
         for(const p in o){
           if (typeof o[p] === "object"){
@@ -80,6 +88,9 @@ var data = {
               e.attributes["type"] = "text";
               e.value = o[p];
               n.appendChild(e);
+              if (typeof window["doOnChange_" + name] == "function"){
+                e.addEventListener("blur", window["doOnChange_" + name])
+              }
           }
         }
       }
@@ -117,7 +128,7 @@ var local = {
         data.Recepient.Idcard.Type = (data.Recepient.Idcard.Type * 2) / 2;
         data.Total1 = (data.Total1 * 2) / 2;
         data.Total2 = (data.Total2 * 2) / 2;
-        fetch('http://localhost:8080/test',{
+        fetch(options.PDFCreateURL,{
           method: 'POST',
           body: JSON.stringify(data)
         }).then(response => response.blob()).then(data => window.open(URL.createObjectURL(data)))
@@ -127,6 +138,11 @@ var local = {
       function saveTemplate(e){
         fillObject(data,"inp");
         window.localStorage.setItem(constTemplateStorageItemName,JSON.stringify(data));
+     }
+
+     function editOptions(e){
+       window.localStorage.setItem(constOptionsStorageItemName,JSON.stringify(options));
+       document.location.assign("./options.html");
      }
     </script>
     <style>
@@ -142,6 +158,9 @@ var local = {
         content: "\D\A\D\A";
         white-space: pre;
       }
+      button{
+        margin: 0.3rem;
+      }
     </style>
   </head>
   <body>
@@ -149,7 +168,9 @@ var local = {
     <label for="inpProviderINN">ИНН медицинской организации</label><input id="inpProviderINN" type="text"></input>
     <label for=""></label><input id="" type="text"></input-->
     <div id="divFormData"></div>
-    <br><button onclick="createPDF()">Сформировать!</button><button onclick="saveTemplate()">Сохранить как шаблон!</button>
+    <br><button onclick="createPDF()">Сформировать!</button>
+    <button onclick="saveTemplate()">Сохранить как шаблон!</button>
+    <button onclick="editOptions()">Изменить настройки!</button>
     <p><details><summary>* Коды видов документа</summary>
 <table width="90%"><tbody><tr><td>Код
 </td><td>Наименование документа
